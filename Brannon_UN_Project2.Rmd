@@ -1,0 +1,61 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+library(tidyverse)
+```
+1.	Using the `read_csv()` function, read the GDP dataset into your notebook as a tibble called `gdp_df`. After reading it in, inspect the first 10 rows and then inspect the last 10 rows. 
+
+```{r}
+gdp_df <- read_csv('data/gdp_per_capita.csv')
+```
+```{r}
+gdp_df |> 
+  head(10)
+```
+```{r}
+gdp_df |>
+  tail(10)
+```
+2. Drop the 'Value Footnotes' column, and rename the remaining columns to 'Country', 'Year', and 'GDP_Per_Capita'.
+```{r}
+gdp_df <- gdp_df |>
+  select(-'Value Footnotes') |>
+  rename('Country' = 'Country or Area', 'GDP_Per_Capita' = 'Value')
+gdp_df  
+```
+3. Which years are represented in this dataset? How many observations are there per year? Make a plot to view the number of observations per year.
+```{r}
+gdp_df |> 
+  pull(Year) |> 
+  unique()
+```
+```{r}
+  obs_per_year <- gdp_df |> 
+                  group_by(Year) |> 
+                  summarise(n())
+obs_per_year
+```
+
+```{r}
+obs_per_year <- obs_per_year |> 
+                rename(count = 'n()')
+ ggplot(obs_per_year, aes(x = Year, y = count)) + geom_col()
+```
+4. How many countries are represented in this dataset? Which countries have the fewest observations?
+```{r}
+ gdp_df |> 
+  summarise(n_distinct(Country))
+  
+```
+```{r}
+obs_per_country <- gdp_df |> 
+  group_by(Country) |> 
+  summarise(n())  
+  
+obs_per_country |>
+  rename(Count = 'n()') |> 
+  arrange(Count)
+```
+
