@@ -21,8 +21,8 @@ gdp_df |>
 2. Drop the 'Value Footnotes' column, and rename the remaining columns to 'Country', 'Year', and 'GDP_Per_Capita'.
 ```{r}
 gdp_df <- gdp_df |>
-  select(-'Value Footnotes') |>
-  rename('Country' = 'Country or Area', 'GDP_Per_Capita' = 'Value')
+  select(-`Value Footnotes`) |>
+  rename(Country = `Country or Area`, GDP_Per_Capita = `Value`)
 gdp_df  
 ```
 3. Which years are represented in this dataset? How many observations are there per year? Make a plot to view the number of observations per year.
@@ -229,7 +229,7 @@ gdp_le_2021 |>
 ```
 ```{r}
 gdp_le_top_countries <- gdp_le |> 
-  filter(`Country` == c('Luxembourg', 'Singapore', 'Ireland'))
+  filter(`Country` %in% c('Luxembourg', 'Singapore', 'Ireland'))
 gdp_le_top_countries
 ```
 ```{r}
